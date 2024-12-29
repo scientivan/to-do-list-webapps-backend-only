@@ -1,0 +1,43 @@
+<form method="post" action="/edit?_method=PUT">
+        <!--  ngambil dari user id nya lewat cookies? atau credentials ? -->
+    <input type="hidden" name="todo_id" id="todo_id" value="<%= id %>">
+
+    <div class="mb-3 mt-5">
+      <label class="form-label">Title</label>
+      <input name="title" type="text" class="form-control" id="title" value="<%=list.title%>" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Description</label>
+      <input name="description" type="text" class="form-control" id="description" value="<%= list.description %>">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Due Date</label>
+      <input name="due_date" type="datetime-local" class="form-control" id="due_date" value="<%= list.due_date %>">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Priority Level</label>
+      <select  class="form-select" aria-label="Default select example" name="priority" id="priority">
+      <option selected ="Low">Low</option>
+      <option value="Mid">Mid</option>
+      <option value="High">High</option>
+
+      </select>
+    </div>
+
+    <% var currentdate = new Date(); 
+    const date = currentdate.getDate() + "/"
+    + (currentdate.getMonth()+1)  + "/" 
+    + currentdate.getFullYear()%>
+
+    <% const time = currentdate.getHours() + ":"  
+    + currentdate.getMinutes() + ":" 
+    + currentdate.getSeconds();  %>
+
+    <!-- ngambil dari timestamps -->
+    <input type="hidden" name="created_at" id="created_at" value=<%=date +'@' + time%>>
+    <button type="submit" class="btn btn-primary">Edit to To Do List</button>
+  </form>
+    

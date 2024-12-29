@@ -1,0 +1,55 @@
+<table class="table">
+    <% if (msg.length > 0) { %>
+      <div class="alert alert-success" role="alert">
+        <%= msg %>
+      </div>
+    <% } %>
+      <thead>
+        <tr>
+          <th scope="col">No</th>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">Due Date</th>
+          <th scope="col">Priority Level</th>
+          <th scope="col">Status</th>      
+          <th scope="col">Created At</th>        
+          <th scope="col">Finished At</th>        
+          <th scope="col">Action</th>        
+        </tr>
+      </thead>  
+      
+      <tbody> 
+          <% list.forEach((l,index) => { %>
+            <tr>
+                <th scope="row"><%= index + 1 %></th>
+                <td><%= l.title %></td>
+                <td><%= l.description %></td>
+                <td><%= l.due_date %></td>
+                <td><%= l.priority %></td>
+                <!-- <td><%= l.is_complete %></td> -->
+                <!-- dibuat checklist biar lebih enak  -->
+                <td><a href="/status/<%=l._id%>" class="btn btn-primary badge  ">Finish </a></td>
+                <td><%= l.created_at %></td>
+                <td><%= l.updated_at %></td>
+                <form method="POST" action="/completed/delete?_method=DELETE">
+                  <input type="hidden" name="todo_id" value="<%= l._id %>">
+                  <th><button type="submit" class="btn btn-danger badge" onclick="return confirm('Are you sure you wanna delete this task?')">Delete Task</button></th>
+                </form>
+            </tr>
+         <% }); %>
+  
+      </tbody>
+      
+</table>
+<div class="mt-5">
+  <div class="dropdown d-inline-block">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Sort task
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="/completed/due_date">Sort by due date</a></li>
+      <li><a class="dropdown-item" href="/completed/priority_level">Sort by level of priority</a></li>
+    </ul>
+  </div>  
+</div>
+  

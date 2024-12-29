@@ -1,0 +1,47 @@
+<form method="post" action="/register">
+  <% if (typeof errors != 'undefined') { %>
+    <div class="alert alert-danger" role="alert">
+        <ul>
+            <% errors.forEach(e => { %>
+                <li> <%= e.msg %></li>    
+          <%}); %>
+        </ul>
+      </div>
+<% } %> 
+
+
+    <div class="mb-3 mt-5">
+      <label class="form-label">Nama Lengkap</label>
+      <input type="text" class="form-control" id="nama" name="nama" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Email address</label>
+      <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Phone Number</label>
+      <input name="noHP" type="number" class="form-control" id="noHP">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Password</label>
+      <input name="password" type="password" class="form-control" id="password" required>
+      <div class="form-text">We'll never share your password with anyone else.</div>
+    </div>
+
+    <% var currentdate = new Date(); 
+    const date = currentdate.getDate() + "/"
+    + (currentdate.getMonth()+1)  + "/" 
+    + currentdate.getFullYear()%>
+
+    <% const time = currentdate.getHours() + ":"  
+    + currentdate.getMinutes() + ":" 
+    + currentdate.getSeconds();  %>
+
+    <input type="hidden" name="created_at" id="created_at" value=<%=date +'@' + time%>>
+    <button type="submit" class="btn btn-primary">Daftar</button>
+    <a class="mt-5" href="./login">Sudah punya akun?</a>
+  </form>
+    
