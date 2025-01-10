@@ -9,8 +9,7 @@ const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const flash = require('connect-flash');
 
-const {userModel,toDoModel,completedModel} = require('./server/models/dbModel')
-require('./server/config/database')
+require('./config/database')
 
 const PORT = process.env.PORT   
 const app = express()
@@ -35,54 +34,14 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/',require('./server/routes/auth'))
-app.use('/',require('./server/routes/loggedin'))
+app.use('/',require('./routes/auth'))
+app.use('/',require('./routes/loggedin'))
 
 //handle semua endpoint yang gaada untuk menampilkan 404 not found page
 app.get('*', (req, res) => {
     res.status(404).render('404')
 })
 
-
-
-
-app.get('/logout',isAuthenticated,(req,res) => {
-    req.session.user_id = undefined
-    res.locals.isAuthenticated = req.session.user_id 
-    res.redirect('/login')
-})
-
-//home untuk ngeshow to do listnya
-app.get('/completed',isAuthenticated, async (req,res) => {
-    const list = await completedModel.find({'user_id' : req.session.user_id})
-    res.render('completed',{
-        layout : 'layouts/main-layout',
-        title : 'Completed Task Page',
-        list : list,
-        msg: req.flash('msg')
-    })
-})
-
-app.get('/completed/:sort',isAuthenticated, async (req,res) => {
-    if(req.params.sort == "due_date"){
-        const list = await completedModel.find({'user_id' : req.session.user_id}).sort({due_date : 1})  
-        res.render('completed',{
-            layout : 'layouts/main-layout',
-            title : 'Completed Task Page',
-            list : list,
-            msg: req.flash('msg')
-        })
-    }
-    else if(req.params.sort == "priority_level"){
-        const list = await completedModel.find({'user_id' : req.session.user_id}).sort({priority_level: -1})  
-        res.render('completed',{
-            layout : 'layouts/main-layout',
-            title : 'Completed Task Page',
-            list : list,
-            msg: req.flash('msg')
-        })
-    }
-})
 
 app.listen(PORT,() => {
     console.log(`listening on PORT ${PORT}`)

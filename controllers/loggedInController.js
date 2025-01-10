@@ -142,3 +142,35 @@ exports.statusById = async () => {
         }
     }
 }
+
+//home untuk ngeshow to do listnya
+exports.completed = async () => {
+    const list = await completedModel.find({'user_id' : req.session.user_id})
+    res.render('completed',{
+        layout : 'layouts/main-layout',
+        title : 'Completed Task Page',
+        list : list,
+        msg: req.flash('msg')
+    })
+}
+exports.completedSort = async () => {
+    if(req.params.sort == "due_date"){
+        const list = await completedModel.find({'user_id' : req.session.user_id}).sort({due_date : 1})  
+        res.render('completed',{
+            layout : 'layouts/main-layout',
+            title : 'Completed Task Page',
+            list : list,
+            msg: req.flash('msg')
+        })
+    }
+    else if(req.params.sort == "priority_level"){
+        const list = await completedModel.find({'user_id' : req.session.user_id}).sort({priority_level: -1})  
+        res.render('completed',{
+            layout : 'layouts/main-layout',
+            title : 'Completed Task Page',
+            list : list,
+            msg: req.flash('msg')
+        })
+    }
+}
+

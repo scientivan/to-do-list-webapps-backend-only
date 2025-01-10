@@ -12,5 +12,7 @@ router.put('/edit/:title',checkAuth.isAuthenticated, loggedIn.editData)
 router.delete('/delete',checkAuth.isAuthenticated, loggedIn.deleteData)
 router.delete('/completed/delete',checkAuth.isAuthenticated, loggedIn.deleteCompletedData)
 router.get('/status/:id',checkAuth.isAuthenticated, loggedIn.statusById) 
+router.get('/completed',checkAuth.isAuthenticated,loggedIn.completed)
+router.get('/completed/:sort',checkAuth.isAuthenticated,loggedIn.completedSort)
 
 module.exports = router

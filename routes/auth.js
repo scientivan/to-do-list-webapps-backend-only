@@ -1,15 +1,12 @@
 const express = require('express')
 const router = express.Router()
-
+const checkAuth = require('../middleware/checkAuth')
 const { body, check,validationResult } = require('express-validator');
+const auth = require('../controllers/auth')
+const {userModel,toDoModel,completedModel} = require('../models/dbModel')
 
 //route ke register
-router.get('/', (req,res) => {
-    res.render('register',{
-        title : 'Register Page',
-        layout: 'layouts/main-layout', 
-    })
-})
+router.get('/register', auth.registerPage)
 
 //proses ngemasukkin data yang diisi ke database
 router.post('/register',[check('email',"Email tidak valid!").isEmail(),body('email').custom(async (value) => {
@@ -38,15 +35,8 @@ router.post('/register',[check('email',"Email tidak valid!").isEmail(),body('ema
     }
 })
 
-//route ke login
-router.get('/login',(req,res) => {
-    
-    res.render('login',{
-        layout: 'layouts/main-layout',
-        title : 'Register Page',
-        msg : req.flash('msg')
-    })
-})
+router.get('/login',auth.loginPage)
+
 
 //proses ngecocokin data yang ada di database untuk login
 router.post('/login',async (req,res)=>{
@@ -72,5 +62,12 @@ router.post('/login',async (req,res)=>{
         }
     }
 })
+
+router.get('/logout',checkAuth.isAuthenticated,(req,res) => {
+    req.session.user_id = undefined
+    res.locals.isAuthenticated = req.session.user_id 
+    res.redirect('/login')
+})
+
 
 module.exports = router
