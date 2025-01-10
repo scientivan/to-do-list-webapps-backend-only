@@ -16,7 +16,7 @@ const app = express()
 app.set('view engine','ejs')
 app.use(expressLayouts)
 app.use(express.urlencoded())
-app.use(methodOverride('_method'))
+app.use(methodOverride('_method')) //  buat munculin UPDATE dan DELETE
 app.use(flash())
 
 app.use(cookieParser('secret'))
