@@ -8,9 +8,11 @@ const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const flash = require('connect-flash');
 const passport = require('passport')
+const path = require('path');
+
 db.connectDB()
 const app = express()
-
+app.set('views', path.join(__dirname, 'views')); // Pastikan folder 'views' sesuai
 app.set('view engine','ejs')
 app.use(expressLayouts)
 app.use(express.urlencoded())
