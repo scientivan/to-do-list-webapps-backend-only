@@ -3,6 +3,10 @@ const mongoose = require('mongoose')
 //kurang todo_id sama user_id
 const userModel = mongoose.model('users',{
     // ada variabel user_id dari req.sessions.user_id yang diambil dari mongo
+    'google_id' : {
+        type : String,
+        required : false
+    },
     'nama' : {
         type : String,
         required : true
@@ -13,11 +17,11 @@ const userModel = mongoose.model('users',{
     },
     'noHP' : {
         type : String,
-        required : true
+        required : false
     },
     'password' : {
         type : String,
-        required : true
+        required : false
     },
     'created_at' : {
         type : String,

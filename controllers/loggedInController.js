@@ -1,6 +1,8 @@
-exports.mainpage = async () => {
+const {toDoModel,completedModel} = require('../models/dbModel')
+
+
+exports.mainpage = async (req,res) => {
     const list = await toDoModel.find({'user_id' : req.session.user_id})
-    console.log()
     res.render('home',{
         layout : 'layouts/main-layout',
         title : 'Home Page',
@@ -9,7 +11,7 @@ exports.mainpage = async () => {
     })
 }
 
-exports.sort = async () => {
+exports.sort = async (req,res) => {
     if(req.params.sort == "due_date"){
         const list = await toDoModel.find({'user_id' : req.session.user_id}).sort({due_date : 1})  
         res.render('home',{
@@ -30,7 +32,7 @@ exports.sort = async () => {
     }
 }
 
-exports.add = () => {
+exports.add = (req,res) => {
     res.render('add-todo',{
         layout : 'layouts/main-layout',
         title : 'Add to To Do List Page',
@@ -38,7 +40,7 @@ exports.add = () => {
     })
 }
 
-exports.addData = async () => {
+exports.addData = async (req,res) => {
     if (req.body.priority == "Low") {
         req.body.priority_level = 1
     } else if (req.body.priority == "Mid") {
@@ -50,8 +52,8 @@ exports.addData = async () => {
     res.redirect('/')
 }
 
-exports.edit = async () => {
-    const list = await toDoModel.findOne({'title' : req.params.title})
+exports.edit = async (req,res) => {
+    const list = await toDoModel.findOne({'_id' : req.params.id})
     res.render('edit-todo',{
         layout : 'layouts/main-layout',
         title : 'Edit To Do List Page',
@@ -60,7 +62,7 @@ exports.edit = async () => {
     })
 }
 
-exports.editData = async () => {
+exports.editData = async (req,res) => {
     var currentdate = new Date(); 
     const date = currentdate.getDate() + "/"
     + (currentdate.getMonth()+1)  + "/" 
@@ -84,8 +86,8 @@ exports.editData = async () => {
 }
 
 
-exports.deleteData = async () => {
-    console.log(req.body.todo_id)
+exports.deleteData = async (req,res) => {
+
     const isTask = await toDoModel.findById(req.body.todo_id)
     if(!isTask){
         //kalok yang mau dihapus  gaada
@@ -100,7 +102,7 @@ exports.deleteData = async () => {
     }
 }
 
-exports.deleteCompletedData = async () => {
+exports.deleteCompletedData = async (req,res) => {
     const isTask = await completedModel.findById(req.body.todo_id)
     if(!isTask){
         //kalok yang mau dihapus  gaada
@@ -115,7 +117,7 @@ exports.deleteCompletedData = async () => {
     }
 }
 
-exports.statusById = async () => {
+exports.statusById = async (req,res) => {
     var currentdate = new Date(); 
     const date = currentdate.getDate() + "/"
     + (currentdate.getMonth()+1)  + "/" 
@@ -144,7 +146,7 @@ exports.statusById = async () => {
 }
 
 //home untuk ngeshow to do listnya
-exports.completed = async () => {
+exports.completed = async (req,res) => {
     const list = await completedModel.find({'user_id' : req.session.user_id})
     res.render('completed',{
         layout : 'layouts/main-layout',
@@ -153,7 +155,7 @@ exports.completed = async () => {
         msg: req.flash('msg')
     })
 }
-exports.completedSort = async () => {
+exports.completedSort = async (req,res) => {
     if(req.params.sort == "due_date"){
         const list = await completedModel.find({'user_id' : req.session.user_id}).sort({due_date : 1})  
         res.render('completed',{

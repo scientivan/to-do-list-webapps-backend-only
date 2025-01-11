@@ -30,7 +30,7 @@
               <!-- onclick yang isinya if statement kalok valuenya 1 berarti nanti buat input hidden untuk is_complete -->
               <td><%= l.created_at %></td> 
               <td><%= l.updated_at %></td>
-              <th><a href="/edit/<%=l.title%>" class="btn btn-primary badge  ">Edit task </a> </th>
+              <th><a href="/edit/<%=l._id%>" class="btn btn-primary badge  ">Edit task </a> </th>
               <form method="POST" action="/delete?_method=DELETE">
                 <input type="hidden" name="todo_id" value="<%= l._id %>">
                 <th><button type="submit" class="btn btn-danger badge" onclick="return confirm('Are you sure you wanna delete this task?')">Delete Task</button></th>
