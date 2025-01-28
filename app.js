@@ -30,9 +30,9 @@ app.use(session({
     secret : 'secret',
     resave : false,
     saveUninitialized : false,
-    store : MongoStore.create({
-        mongoUrl : process.env.MONGODB_URI
-    })
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI,
+    }),
 }))
 
 app.use(passport.initialize());
@@ -55,5 +55,5 @@ app.get('*', (req, res) => {
 
 
 app.listen(process.env.PORT,() => {
-    console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV} mode.`)
+    console.log(`Server running on port ${process.env.PORT} in ${process.env.NODE_ENV} mode.`)
 })
