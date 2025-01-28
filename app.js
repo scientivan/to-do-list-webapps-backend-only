@@ -1,4 +1,6 @@
-require('dotenv').config()
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
 // require('./config/database')
 const db = require('./config/atlas')
 const express = require('express')
@@ -9,6 +11,8 @@ const cookieParser = require('cookie-parser')
 const flash = require('connect-flash');
 const passport = require('passport')
 const path = require('path');
+const MongoStore = require('connect-mongo')
+const MongoStore = require('connect-mongo')
 
 db.connectDB()
 const app = express()
@@ -20,10 +24,16 @@ app.use(methodOverride('_method')) //  buat munculin UPDATE dan DELETE
 
 app.use(cookieParser('secret'))
 app.use(session({
-    cookie : {maxAge : 30 *  24 * 60 * 60 * 1000},
+    cookie : {
+        maxAge : 30 *  24 * 60 * 60 * 1000,
+        secure: process.env.NODE_ENV === 'production',
+    },
     secret : 'secret',
     resave : false,
-    saveUninitialized : false
+    saveUninitialized : false,
+    store : MongoStore.create({
+        mongoUrl : process.env.MONGODB_URI
+    })
 }))
 
 app.use(passport.initialize());
@@ -46,5 +56,5 @@ app.get('*', (req, res) => {
 
 
 app.listen(process.env.PORT,() => {
-    console.log(`listening on PORT ${process.env.PORT}`)
+    console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV} mode.`)
 })
