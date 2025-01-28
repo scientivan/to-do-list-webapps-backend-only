@@ -27,8 +27,12 @@ app.use(session({
         maxAge : 30 *  24 * 60 * 60 * 1000,
         secure: process.env.NODE_ENV === 'production',
     },
+    // keyword berupa kode enkripsi yang digunakan untuk menandatangani session di dalam sebuah cookie untuk menunjukkan bahwa
+    // session id nya secure
     secret : 'secret',
+    //dengan resave = false, sesi hanya menyimpan data yang benar-benar berubah.
     resave : false,
+    // hanya ingin menyimpan sesi yang benar-benar berguna (misalnya, sesi yang berisi informasi pengguna setelah login). 
     saveUninitialized : false,
     store: MongoStore.create({
         mongoUrl: process.env.MONGODB_URI,
