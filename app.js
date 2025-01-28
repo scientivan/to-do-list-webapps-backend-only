@@ -12,7 +12,6 @@ const flash = require('connect-flash');
 const passport = require('passport')
 const path = require('path');
 const MongoStore = require('connect-mongo')
-const MongoStore = require('connect-mongo')
 
 db.connectDB()
 const app = express()
